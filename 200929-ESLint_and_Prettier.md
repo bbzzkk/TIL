@@ -140,6 +140,37 @@ rules에서 원하는 규칙 적용 및 특정 규칙들을 끄거나 경고처�
 
 파일 최상단에 `/* eslint-disable */` 추가
 
+### webpack alias로 인한 import/no-unresolved 오류
+
+다음과 같이 경로에 alias 있으면 eslint 오류가 뜸
+
+```bash
+import Something from '@/something';
+
+=> Unable to resolve path to module '@/something'. eslint(import/no-unresolved)
+```
+
+### 해결 방법
+
+`npm install eslint-import-resolver-alias --save-dev` 설치 후
+
+ .eslintrc.json 에 다음 내용 추가
+
+ ```json
+ {
+  "settings": {
+    "import/resolver": {
+      "alias": {
+        "map": [
+          ["@", "./src/"] /* webpack-config.js 에 alias 설정한 것 */ 
+        ]
+      }
+    }
+  },
+  /* ... */
+ }
+ ```
+
 ## Reference
 
 - [Prettier Options](https://prettier.io/docs/en/options.html)
